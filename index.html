@@ -1,144 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Em Assessment</title>
 </head>
 <body>
-    <p id='test'> HAHA</p>
+    <form id='inputForm'>
+        <textarea type='textarea' name='inputBox' id='inputBox' placeholder='Enter input here...'></textarea>        
+        <button type='submit'>Submit</button>
+    </form>
 </body>
 <script>
-    let obj1 = {
-    "name": "Tshirt",
-    "attributes": [
-        {
-            "name": "color",
-            "values": [
-                {
-                    "name": "red",
-                    "active": true
-                },
-                {
-                    "name": "blue",
-                    "active": true
-                },
-                {
-                    "name": "green",
-                    "active": true
-                }
-            ]
-        },
-        {
-            "name": "size",
-            "values": [
-                {
-                    "name": "S",
-                    "active": true
-                },
-                {
-                    "name": "M",
-                    "active": false
-                },
-                {
-                    "name": "L",
-                    "active": true
-                }
-            ]
-        }
-    ]
-}
+    let inputForm = document.getElementById('inputForm');
+    let response = document.getElementById('inputBox')
+       
+   
+    
+let combinationGenerator =(em)=>{
+    console.log('m', JSON.parse(em));
+    let { name, attributes } = JSON.parse(em)
+    console.log(name);
 
-let obj2 = {
-    "name": "Lightning Cable",
-    "attributes": [
-        {
-            "name": "color",
-            "values": [
-                {
-                    "name": "red",
-                    "active": true
-                },
-                {
-                    "name": "blue",
-                    "active": true
-                },
-                {
-                    "name": "green",
-                    "active": true
-                }
-            ]
-        },
-        {
-            "name": "length",
-            "values": [
-                {
-                    "name": "1m",
-                    "active": true
-                },
-                {
-                    "name": "3m",
-                    "active": true
-                },
-                {
-                    "name": "6m",
-                    "active": false
-                }
-            ]
-        },
-        {
-            "name": "finish",
-            "values": [
-                {
-                    "name": "nylon",
-                    "active": true
-                },
-                {
-                    "name": "rubber",
-                    "active": false
-                }
-            ]
-        }
-    ]
-}
+    let testObj = {}
 
-let { name, attributes } = obj2
+    attributes.map((attribute) => {
+        testObj[attribute.name] = attribute.values.map((value) => { return value.name })      
+    })
 
-let testObj = {}
-attributes.map((attribute) => {
-    testObj[attribute.name] = attribute.values.map((value) => { return value.name })      
-})
-
-let test = []
-for(const key in testObj){
-    test.push(testObj[key])
-}
-let r = []
-function cartesian(...args) {
-    let max = args.length - 1;
-    function helper(arr, i) {
-        for (let j = 0, l = args[i].length; j < l; j++) {
-            let a = arr.slice(0); // clone arr
-            a.push(args[i][j]);
-            if (i == max)
-                r.push(a);
-            else
-                helper(a, i + 1);
-        }
+    let test = []
+    for(const key in testObj){
+        test.push(testObj[key])
     }
-    helper([], 0);
-    return r;
-}
+    let r = []
+    function cartesian(...args) {
+        let max = args.length - 1;
+        function helper(arr, i) {
+            for (let j = 0, l = args[i].length; j < l; j++) {
+                let a = arr.slice(0); // clone arr
+                a.push(args[i][j]);
+                if (i == max)
+                    r.push(a);
+                else
+                    helper(a, i + 1);
+            }
+        }
+        helper([], 0);
+        return r;
+    }
 
-cartesian(...test)
+    cartesian(...test)
 
 
-r.forEach(function(el) {
-    var div = document.createElement("div");
-    div.innerText = el[0];
-    document.body.appendChild(div);
-});
- 
+    r.forEach(function(el) {
+        var div = document.createElement('div');
+        div.innerText = el[0];
+        document.body.appendChild(div);
+    });
+ }
+
+let handleForm =(event)=>{ 
+        event.preventDefault();
+        console.log(response.value);
+        let em = response.value
+        combinationGenerator(em);
+    } 
+    inputForm.addEventListener('submit', handleForm);
+
 </script>
 </html>
