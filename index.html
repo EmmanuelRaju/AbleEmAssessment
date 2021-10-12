@@ -11,62 +11,64 @@
         <textarea type='textarea' name='inputBox' id='inputBox' placeholder='Enter input here...'></textarea>        
         <button type='submit'>Submit</button>
     </form>
-</body>
 <script>
-    let inputForm = document.getElementById('inputForm');
-    let response = document.getElementById('inputBox')
-       
-   
-    
-let combinationGenerator =(em)=>{
-    console.log('m', JSON.parse(em));
-    let { name, attributes } = JSON.parse(em)
-    console.log(name);
+    let inputForm = document.getElementById('inputForm')
+    let response = document.getElementById('inputBox')    
+    let combinationGenerator =(em)=>{
+        let { name, attributes } = JSON.parse(em)
+        let obj = {}
+        attributes.map((attribute) => {
+            obj[attribute.name] = attribute.values.map((value) => { return value.name })      
+        })
 
-    let testObj = {}
-
-    attributes.map((attribute) => {
-        testObj[attribute.name] = attribute.values.map((value) => { return value.name })      
-    })
-
-    let test = []
-    for(const key in testObj){
-        test.push(testObj[key])
-    }
-    let r = []
-    function cartesian(...args) {
-        let max = args.length - 1;
-        function helper(arr, i) {
-            for (let j = 0, l = args[i].length; j < l; j++) {
-                let a = arr.slice(0); // clone arr
-                a.push(args[i][j]);
-                if (i == max)
-                    r.push(a);
-                else
-                    helper(a, i + 1);
-            }
+        let arr = []
+        let atr = []
+        for(const key in obj){
+            arr.push(obj[key])
+            atr.push(key)
         }
-        helper([], 0);
-        return r;
+        let combinations = []
+        function coreFunc(...args) {
+            let max = args.length - 1;
+            let helper=(arr, i)=> {
+                for (let j = 0, l = args[i].length; j < l; j++) {
+                    let a = arr.slice(0);
+                    a.push(args[i][j]);
+                    if (i == max)
+                        combinations.push(a);
+                    else
+                        helper(a, i + 1);
+                }
+            }
+            helper([], 0);
+            return combinations;
+        }
+
+        coreFunc(...arr)
+        let i = atr.length
+        console.log(i)
+
+
+        combinations.forEach((el)=> {
+            let p = document.createElement('p');
+            let str = `Name: ${name};`
+             for(let j=0;j<i; j++){
+                  str = str + `${atr[j]}: ${el[j]};`
+             }
+             p.innerText = str
+            document.body.appendChild(p);
+        });
     }
 
-    cartesian(...test)
-
-
-    r.forEach(function(el) {
-        var div = document.createElement('div');
-        div.innerText = el[0];
-        document.body.appendChild(div);
-    });
- }
-
-let handleForm =(event)=>{ 
-        event.preventDefault();
-        console.log(response.value);
-        let em = response.value
-        combinationGenerator(em);
-    } 
+    let handleForm =(event)=>{ 
+            event.preventDefault();
+            console.log(response.value);
+            let em = response.value
+            combinationGenerator(em);
+        } 
+    
     inputForm.addEventListener('submit', handleForm);
 
 </script>
+</body>
 </html>
