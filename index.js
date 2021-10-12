@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Em Assessment</title>
-</head>
-<body>
-    <p id='test'> HAHA</p>
-</body>
-<script>
-    let obj1 = {
+let obj1 = {
     "name": "Tshirt",
     "attributes": [
         {
@@ -104,19 +92,37 @@ let obj2 = {
 }
 
 let { name, attributes } = obj2
+console.log(attributes);
+
+let atrArr = []
 
 let testObj = {}
 attributes.map((attribute) => {
-    testObj[attribute.name] = attribute.values.map((value) => { return value.name })      
+    testObj[attribute.name] = attribute.values.map((value) => { return value.name })
+
+
+    console.log(testObj);
+
+    atrArr.push(attribute.name)
 })
 
+console.log(testObj);
+
+let { color, size, finish } = testObj
+console.log(color);
+console.log(size);
+console.log(finish);
+
+console.log(atrArr);
+
 let test = []
-for(const key in testObj){
+for (const key in testObj) {
     test.push(testObj[key])
 }
-let r = []
+console.log(test);
+
 function cartesian(...args) {
-    let max = args.length - 1;
+    let r = [], max = args.length - 1;
     function helper(arr, i) {
         for (let j = 0, l = args[i].length; j < l; j++) {
             let a = arr.slice(0); // clone arr
@@ -131,14 +137,5 @@ function cartesian(...args) {
     return r;
 }
 
-cartesian(...test)
-
-
-r.forEach(function(el) {
-    var div = document.createElement("div");
-    div.innerText = el[0];
-    document.body.appendChild(div);
-});
- 
-</script>
-</html>
+console.log(cartesian([{ color: 'red' }, { color: 'blue' }, { color: 'green' }], [{ size: 'S' }, { size: 'M' }, { size: 'L' }]))
+console.log(cartesian(...test))

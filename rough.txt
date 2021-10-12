@@ -1,0 +1,94 @@
+
+{
+    "name": "Lightning Cable",
+    "attributes": [
+        {
+            "name": "color",
+            "values": [
+                {
+                  "name": "red",
+                  "active": true
+                },
+                {
+                  "name": "blue",
+                  "active": true
+                },
+                {
+                  "name": "green",
+                  "active": true
+                }
+            ]
+        },
+        {
+            "name": "length",
+            "values": [
+                {
+                  "name": "1m",
+                  "active": true
+                },
+                {
+                  "name": "3m",
+                  "active": true
+                },
+                {
+                  "name": "6m",
+                  "active": false
+                }
+            ]
+        },
+        {
+            "name": "finish",
+            "values": [
+              {
+                "name": "nylon",
+                "active": true
+              },
+              {
+                "name": "rubber",
+                "active": false
+              }
+            ]
+        }
+    ]
+}
+
+
+{
+    "name": "Tshirt",
+    "attributes": [
+        {
+            "name": "color",
+            "values": [
+                {
+                  "name": "red",
+                  "active": true
+                },
+                {
+                  "name": "blue",
+                  "active": true
+                },
+                {
+                  "name": "green",
+                  "active": true
+                }
+            ]
+        },
+        {
+            "name": "size",
+            "values": [
+                {
+                  "name": "S",
+                  "active": true
+                },
+                {
+                  "name": "M",
+                  "active": false
+                },
+                {
+                  "name": "L",
+                  "active": true
+                }
+            ]
+        }
+    ]
+}
