@@ -1,74 +1,103 @@
 <!DOCTYPE html>
 <html lang='en'>
+
 <head>
     <meta charset='UTF-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Em Assessment</title>
 </head>
+
 <body>
-    <form id='inputForm'>
-        <textarea type='textarea' name='inputBox' id='inputBox' placeholder='Enter input here...'></textarea>        
-        <button type='submit'>Submit</button>
-    </form>
-<script>
-    let inputForm = document.getElementById('inputForm')
-    let response = document.getElementById('inputBox')    
-    let combinationGenerator =(em)=>{
-        let { name, attributes } = JSON.parse(em)
-        let obj = {}
-        attributes.map((attribute) => {
-            obj[attribute.name] = attribute.values.map((value) => { return value.name })      
-        })
 
-        let arr = []
-        let atr = []
-        for(const key in obj){
-            arr.push(obj[key])
-            atr.push(key)
-        }
-        let combinations = []
-        function coreFunc(...args) {
-            let max = args.length - 1;
-            let helper=(arr, i)=> {
-                for (let j = 0, l = args[i].length; j < l; j++) {
-                    let a = arr.slice(0);
-                    a.push(args[i][j]);
-                    if (i == max)
-                        combinations.push(a);
-                    else
-                        helper(a, i + 1);
-                }
+    <div style='display:flex;padding: 0.5rem; flex-direction: column; margin-top: auto;'>
+        <h1>COMBINATION GENERATOR</h1>
+        <form id='inputForm' style="height: 17rem; width: 50rem;">
+            <textarea style='margin-top: 1rem;'type='textarea' name='inputBox' id='inputBox' placeholder='Enter input here...' rows="15" cols="75" ></textarea>
+            <button type='submit'>Submit</button>
+        </form>
+    </div>
+
+    <script>
+
+                                                                                        // HTML Refs
+        let inputForm = document.getElementById('inputForm')
+        let inputBox = document.getElementById('inputBox')
+
+                                                                                        //Core logic function
+        let combinationGenerator = (em) => {
+            
+            // Basic error handling using try-catch
+            try{
+                let {name,attributes} = JSON.parse(em)                                 // Input object destructuring
+
+            let obj = {}                                                               // Helper object for containing attributes and values
+            
+            attributes.map((attribute) => {
+                obj[attribute.name] = attribute.values.map((value) => {
+                    return value.name
+                })
+            })
+
+            let arr = []                                                               //Helper array for holding values
+            let atr = []                                                               //Helper array for holding attributes
+            
+            for (const key in obj) {
+                arr.push(obj[key])
+                atr.push(key)
             }
-            helper([], 0);
-            return combinations;
+
+            let combinations = []                                                      //Helper array for holding combinations
+            let coreFunc = (...args) => {                                              //Core function for generating combinations
+                let max = args.length - 1;
+                let helper = (arr, i) => {
+                    for (let j = 0, l = args[i].length; j < l; j++) {
+                        let a = arr.slice(0);
+                        a.push(args[i][j]);
+                        if (i == max)
+                            combinations.push(a);
+                        else
+                            helper(a, i + 1);
+                    }
+                }
+                helper([], 0);
+                return combinations;
+            }
+
+            coreFunc(...arr)
+            let i = atr.length
+
+                                                                                    // Simple function to display count of combinations
+            let count = document.createElement('p');
+            count.innerText = `Total combinations generated : ${combinations.length}`
+            count.style.padding = '0.5rem'
+            document.body.appendChild(count);
+
+                                                                                    // Function block to append combinations to DOM
+            combinations.forEach((el) => {
+                let p = document.createElement('p');
+                let str = `Name: ${name};`
+                for (let j = 0; j < i; j++) {
+                    str = str + `${atr[j]}: ${el[j]};`
+                }
+                p.innerText = str
+                p.style.padding = '0.5rem'
+                document.body.appendChild(p);
+            });
+} catch(e){
+    console.log('ERROR', e);
+    alert('WRONG INPUT GIVEN, PLEASE CHECK AGAIN')
+}}
+
+                                                                                    //Form handler
+        let handleForm = (event) => {
+            event.preventDefault();
+            let em = inputBox.value
+            combinationGenerator(em);
         }
 
-        coreFunc(...arr)
-        let i = atr.length
-        console.log(i)
-
-
-        combinations.forEach((el)=> {
-            let p = document.createElement('p');
-            let str = `Name: ${name};`
-             for(let j=0;j<i; j++){
-                  str = str + `${atr[j]}: ${el[j]};`
-             }
-             p.innerText = str
-            document.body.appendChild(p);
-        });
-    }
-
-    let handleForm =(event)=>{ 
-            event.preventDefault();
-            console.log(response.value);
-            let em = response.value
-            combinationGenerator(em);
-        } 
-    
-    inputForm.addEventListener('submit', handleForm);
-
-</script>
+        inputForm.addEventListener('submit', handleForm);
+    </script>
 </body>
+
 </html>
