@@ -35,7 +35,7 @@
             
             attributes.map((attribute) => {
                 obj[attribute.name] = attribute.values.map((value) => {
-                    return value.name
+                    if (value.active) { return value.name } else return null
                 })
             })
 
@@ -43,6 +43,7 @@
             let atr = []                                                               //Helper array for holding attributes
             
             for (const key in obj) {
+                obj[key] = obj[key].filter(Boolean)
                 arr.push(obj[key])
                 atr.push(key)
             }
@@ -76,9 +77,9 @@
                                                                                     // Function block to append combinations to DOM
             combinations.forEach((el) => {
                 let p = document.createElement('p');
-                let str = `Name: ${name};`
+                let str = `Name: ${name} | `
                 for (let j = 0; j < i; j++) {
-                    str = str + `${atr[j]}: ${el[j]};`
+                    str = str + `${atr[j]}: ${el[j]} | `
                 }
                 p.innerText = str
                 p.style.padding = '0.5rem'
